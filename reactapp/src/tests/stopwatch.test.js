@@ -1,69 +1,72 @@
 import Stopwatch from "../components/Stopwatch/Stopwatch";
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 
+describe("Testing Stopwatch", () => {
+  jest.setTimeout(30000);
 
-describe('Testing Stopwatch', () => {
+  test("testcase1", () => {
+    act(() => {
+      render(<Stopwatch />);
+      jest.advanceTimersByTime(1000);
+    });
 
-    jest.setTimeout(30000);
+    const start = screen.getByTestId("start");
+    const reset = screen.getByTestId("reset");
 
+    const time = screen.getByTestId("time");
 
-    test('FE_before_start', () => {
-        
-        act(() => {
-            render(<Stopwatch />);
-            jest.advanceTimersByTime(1000);
-          });
-        
-        
-        const start = screen.getByTestId('start');
-        const reset = screen.getByTestId('reset');
+    expect(reset).toHaveAttribute("disabled");
+    expect(time.textContent.split(" ").join("")).toBe("00:00:00");
+    console.log(time)
+  }, 30000);
 
-        const time = screen.getByTestId('time');
+  test("testcase2", async () => {
+    act(() => {
+      render(<Stopwatch />);
+    });
 
-        expect(reset).toHaveAttribute('disabled');
-        expect(time.textContent.split(' ').join('')).toBe('00:00:00');
+    const start = screen.getByTestId("start");
+    const reset = screen.getByTestId("reset");
 
-    }, 30000);
+    const time = screen.getByTestId("time");
 
-    test('FE_running_stopwatch', async () => {
+    fireEvent.click(start);
 
-        
-        act(() => {
-            render(<Stopwatch />);
-        });
-        
-        const start = screen.getByTestId('start');
-        const reset = screen.getByTestId('reset');
+    expect(screen.queryByTestId("start")).toBeNull();
+    expect(screen.queryByTestId("pause")).toBeInTheDocument();
+    expect(reset).not.toHaveAttribute("disabled");
+    expect(time.textContent.split(" ").join("")).toBe("00:00:00");
+    await new Promise((r) => setTimeout(r, 2000));
+    await waitFor(() => {
+      expect(screen.getByTestId("time").textContent.split(" ").join("")).toBe(
+        "00:00:02"
+      );
+    });
 
-        const time = screen.getByTestId('time');
+    await new Promise((r) => setTimeout(r, 5000));
+    await waitFor(() => {
+      expect(screen.getByTestId("time").textContent.split(" ").join("")).toBe(
+        "00:00:07"
+      );
+    });
 
-        fireEvent.click(start);
+    const pause = screen.queryByTestId("pause");
+    fireEvent.click(pause);
 
-        expect(screen.queryByTestId('start')).toBeNull();
-        expect(screen.queryByTestId('pause')).toBeInTheDocument();
-        expect(reset).not.toHaveAttribute('disabled');
-        expect(time.textContent.split(' ').join('')).toBe('00:00:00');
-        await new Promise((r) => setTimeout(r, 2000));
-        await waitFor(() => {
-            expect(screen.getByTestId('time').textContent.split(' ').join('')).toBe('00:00:02');
-        })
+    await new Promise((r) => setTimeout(r, 1000));
+    await waitFor(() => {
+      expect(screen.getByTestId("time").textContent.split(" ").join("")).toBe(
+        "00:00:07"
+      );
+    });
 
-        await new Promise((r) => setTimeout(r, 5000));
-        await waitFor(() => {
-            expect(screen.getByTestId('time').textContent.split(' ').join('')).toBe('00:00:07');
-        })
-
-        const pause = screen.queryByTestId('pause');
-        fireEvent.click(pause);
-
-        await new Promise((r) => setTimeout(r, 1000));
-        await waitFor(() => {
-            expect(screen.getByTestId('time').textContent.split(' ').join('')).toBe('00:00:07');
-        })
-
-        fireEvent.click(reset);
-        expect(time.textContent.split(' ').join('')).toBe('00:00:00');
-
-    })
-
-})
+    fireEvent.click(reset);
+    expect(time.textContent.split(" ").join("")).toBe("00:00:00");
+  });
+});
