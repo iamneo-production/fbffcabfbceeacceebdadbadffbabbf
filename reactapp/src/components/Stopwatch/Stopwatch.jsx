@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import './Stopwatch.css';
+//import './App.css';
 const Stopwatch = () => {
   // state to track the elapsed time
   const [disable, setDisable] = useState(true);
