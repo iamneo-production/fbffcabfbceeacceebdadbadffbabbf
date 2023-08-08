@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-//import './App.css';
+import './App.css';
+
 const Stopwatch = () => {
   // state to track the elapsed time
   const [disable, setDisable] = useState(true);
@@ -57,12 +58,13 @@ const Stopwatch = () => {
   };
 
   return (
-    <div className = "watch_container">
-      <div className = "inner_watch">
+    <div className="app">
+         <div className = "stopwatch-card">
+      <div className = "container">
       <h1>React Stopwatch</h1>
       {/* display the elapsed time */}
-      <p data-testid="time" className="timefont">{formattedTime()}</p>
-      <div className = "button_con">
+      <p data-testid="time" >{formattedTime()}</p>
+      <div className = "buttons">
       {/* start button */}
         {visible &&(
             <button data-testid="start" onClick={handleStart}>
@@ -89,7 +91,9 @@ const Stopwatch = () => {
 
         </div>
         </div>
+      </div>
     </div>
+   
   );
 };
 
