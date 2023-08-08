@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import './App.css';
 
 const Stopwatch = () => {
-  // state to track the elapsed time
   const [disable, setDisable] = useState(true);
   const [visible, setVisible] = useState(true);
   const removeVisible = ()=>{
@@ -13,7 +11,6 @@ const Stopwatch = () => {
   }
 
   const [time, setTime] = useState(0);
-  // state to track whether the stopwatch is running
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
@@ -48,13 +45,11 @@ const Stopwatch = () => {
     setIsRunning(false);
   };
 
-  const formattedTime = () => {
-    const hours = Math.floor(time / 3600);
-    const minutes = Math.floor((time % 3600) / 60);
-    const seconds = time % 60;
-    return `${hours.toString().padStart(2, "0")}:${minutes
-      .toString()
-      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+  const formatTime(time) {
+    const hours = Math.floor(time / 3600).toString().padStart(2, '0');
+    const minutes = Math.floor((time % 3600) / 60).toString().padStart(2, '0');
+    const seconds = (time % 60).toString().padStart(2, '0');
+    return `${hours}:${minutes}:${seconds}`;
   };
 
   return (
@@ -62,22 +57,18 @@ const Stopwatch = () => {
          <div className = "stopwatch-card">
       <div className = "container">
       <h1>React Stopwatch</h1>
-      {/* display the elapsed time */}
-      <p data-testid="time" >{formattedTime()}</p>
+      <p data-testid="time" >{formatTime}</p>
       <div className = "buttons">
-      {/* start button */}
         {visible &&(
             <button data-testid="start" onClick={handleStart}>
               Start
             </button>
         )}
-        {/* pause button */}
       {isRunning && (
         <button data-testid="pause" onClick={handlePause}>
           Pause
         </button>
       )}
-      {/* resume button */}
       {!isRunning && time !== 0 && (
         <button data-testid="resume" onClick={handleResume}>
           Resume
@@ -88,7 +79,6 @@ const Stopwatch = () => {
             Reset
         </button>
       )}
-
         </div>
         </div>
       </div>
