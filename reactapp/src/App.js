@@ -1,7 +1,6 @@
 import "./App.css";
 import Stopwatch from "./components/Stopwatch/Stopwatch";
 
-
 function App() {
   return (
     <div className="app">
@@ -9,5 +8,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

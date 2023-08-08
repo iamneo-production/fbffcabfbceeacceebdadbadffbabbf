@@ -45,11 +45,13 @@ const Stopwatch = () => {
     setIsRunning(false);
   };
 
-  const formatTime(time) {
-    const hours = Math.floor(time / 3600).toString().padStart(2, '0');
-    const minutes = Math.floor((time % 3600) / 60).toString().padStart(2, '0');
-    const seconds = (time % 60).toString().padStart(2, '0');
-    return `${hours}:${minutes}:${seconds}`;
+  const formattedTime = () => {
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
+    const seconds = time % 60;
+    return `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
 
   return (
@@ -57,7 +59,7 @@ const Stopwatch = () => {
          <div className = "stopwatch-card">
       <div className = "container">
       <h1>React Stopwatch</h1>
-      <p data-testid="time" >{formatTime}</p>
+      <p data-testid="time" >{formattedTime()}</p>
       <div className = "buttons">
         {visible &&(
             <button data-testid="start" onClick={handleStart}>
@@ -69,6 +71,7 @@ const Stopwatch = () => {
           Pause
         </button>
       )}
+
       {!isRunning && time !== 0 && (
         <button data-testid="resume" onClick={handleResume}>
           Resume
